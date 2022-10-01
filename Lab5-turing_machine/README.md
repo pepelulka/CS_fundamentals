@@ -33,132 +33,336 @@
 Система программирования: **--**, версия **--**\
 Редактор текстов: **emacs**, версия **25.2.2**\
 Утилиты операционной системы: **--**\
-Прикладные системы и программы: **--**\
+Прикладные системы и программы: **jstu4**\
 
 ## 6. Идея, метод, алгоритм решения задачи
 
-
-Для решения поставленной задачи была проверена на практике работа основных комманд 
-терминала ОС UNIX и написан скрипт на языке bash.
-
+Для решения поставленой задачи изначально число было скопировано для сохранений нормированности. Потом скопированное число было было переведено в 9-ую систему счисления последовательным
+переводом кусков числа по две цифры.
 
 ## 7. Сценарий выполнения работы
 
-
-В лабораторной работе была создана директория test-directory, в ней созданы текстовые файлы и директория new-dir. С помощью основных командам терминала были продемонстрированы создание, удаление, запись и чтение файлов через терминал.
-
-Использованные команды:
-
-|Команда|Применение|
-|-------|----------|
-|`whoami`|Выводит имя пользователя|
-|`ls`|Выводит содержимое рабочей директории|
-|`pwd`|Выводит полный путь к рабочей директории|
-|`cd`|Изменение текущей рабочей директории|
-|`cp`|Копирование файлов и директорий|
-|`mv`|Перемещение и переименование файлов и директорий|
-|`man`|Просмотр справочных руководств системы|
-|`rm`|Удаление файлов и директорий|
-|`rmdir`|Удаление пустых директорий|
-|`mkdir`|Создание директорий|
-|`cat`|Конкатенация содержимого файлов|
-|`touch`|Создание нового файла|
-|`ps`|Выводит список текущих процессов|
-
-Далее был создан скрипт, который здоровается с пользователем, выводит текущую директорию и показывает список файлов в ней. Текст скрипта приведен далее.
-
-```                            
-name=$(whoami)
-my_dir=$(pwd)
-echo "Hello $name"
-echo "You're now in $my_dir"
-echo "There is the list of files in the current directory:"
-ls
-```
+Описанный алгоритм был реализован на эмуляторе машины Тьюринга в четверках.
 
 ## 8. Распечатка протокола
 
 ```
-pepelulka@pepelulka-VirtualBox:~$ who
-pepelulka tty2         2022-09-19 21:21 (tty2)
-pepelulka@pepelulka-VirtualBox:~$ whoami
-pepelulka
-pepelulka@pepelulka-VirtualBox:~$ pwd
-/home/pepelulka
-pepelulka@pepelulka-VirtualBox:~$ ls
-Desktop  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
-pepelulka@pepelulka-VirtualBox:~$ mkdir test-directory
-pepelulka@pepelulka-VirtualBox:~$ ls
-Desktop    Downloads  Pictures  snap       test-directory
-Documents  Music      Public    Templates  Videos
-pepelulka@pepelulka-VirtualBox:~$ cd test-directory
-pepelulka@pepelulka-VirtualBox:~/test-directory$ touch t1.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat > t1.txt
-12345678
-pepelulka
-^C
-pepelulka@pepelulka-VirtualBox:~/test-directory$ touch t2.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat > t2.txt
-pepelulikus
-ievievieviev
-^C
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat t1.txt
-12345678
-pepelulka
-pepelulka@pepelulka-VirtualBox:~/test-directory$ touch t3.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat t1.txt t2.txt > t3.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat t3.txt
-12345678
-pepelulka
-pepelulikus
-ievievieviev
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cat -n t3.txt
-     1	12345678
-     2	pepelulka
-     3	pepelulikus
-     4	ievievieviev
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ls
-t1.txt  t2.txt  t3.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ls -l
-total 12
--rw-rw-r-- 1 pepelulka pepelulka 19 сен 19 21:46 t1.txt
--rw-rw-r-- 1 pepelulka pepelulka 25 сен 19 21:47 t2.txt
--rw-rw-r-- 1 pepelulka pepelulka 44 сен 19 21:48 t3.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ mkdir new-dir
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cp t1.txt new-dir
-pepelulka@pepelulka-VirtualBox:~/test-directory$ mv t2.txt new-dir
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ls
-new-dir  t1.txt  t3.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ls new-dir
-t1.txt  t2.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ps
-    PID TTY          TIME CMD
-   2062 pts/0    00:00:00 bash
-   5681 pts/0    00:00:00 ps
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ps -l
-F S   UID     PID    PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
-0 S  1000    2062    1994  0  80   0 -  4978 do_wai pts/0    00:00:00 bash
-0 R  1000    5682    2062  0  80   0 -  5331 -      pts/0    00:00:00 ps
-pepelulka@pepelulka-VirtualBox:~/test-directory$ cd new-dir
-pepelulka@pepelulka-VirtualBox:~/test-directory/new-dir$ rm t1.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory/new-dir$ ls
-t2.txt
-pepelulka@pepelulka-VirtualBox:~/test-directory/new-dir$ cd ..
-pepelulka@pepelulka-VirtualBox:~/test-directory$ rm -r new-dir 
-pepelulka@pepelulka-VirtualBox:~/test-directory$ ls
-t1.txt  t3.txt
+00, , ,start_copy_program
+
+start_main_program, ,$,start_main_program
+start_main_program,$,<,start_main_program
+
+start_main_program,0, ,h0 
+start_main_program,1, ,h1
+start_main_program,2, ,h2
+
+
+h,0, ,h0 
+h,1, ,h1
+h,2, ,h2
+h, , ,right_end_of_n
+
+
+h0, ,<,h0_
+h1, ,<,h1_
+h2, ,<,h2_
+
+
+h0_, , ,right_put0_end_of_n
+h1_, , ,right_put1_end_of_n 
+h2_, , ,right_put2_end_of_n
+
+
+right_put0_end_of_n, ,>,put0_end_of_n
+right_put1_end_of_n, ,>,put1_end_of_n
+right_put2_end_of_n, ,>,put2_end_of_n
+
+
+put0_end_of_n, ,0,end_of_n
+put1_end_of_n, ,1,end_of_n
+put2_end_of_n, ,2,end_of_n
+
+
+h0_,0,0,next_d 
+h0_,1,3,next_d 
+h0_,2,6,next_d
+
+
+h1_,0,1,next_d 
+h1_,1,4,next_d 
+h1_,2,7,next_d
+
+
+h2_,0,2,next_d 
+h2_,1,5,next_d 
+h2_,2,8,next_d
+
+
+next_d,0,<,h
+next_d,1,<,h
+next_d,2,<,h
+next_d,3,<,h
+next_d,4,<,h
+next_d,5,<,h
+next_d,6,<,h
+next_d,7,<,h
+next_d,8,<,h
+
+
+right_end_of_n, ,>,end_of_n
+
+end_of_n,0,>,hook
+end_of_n,1,>,hook
+end_of_n,2,>,hook
+end_of_n,3,>,hook
+end_of_n,4,>,hook
+end_of_n,5,>,hook
+end_of_n,6,>,hook
+end_of_n,7,>,hook
+end_of_n,8,>,hook
+
+
+hook,$, ,go_to_n 
+hook, ,>,hook
+
+hook,0, ,resp0 
+hook,1, ,resp1
+hook,2, ,resp2
+hook,3, ,resp3
+hook,4, ,resp4
+hook,5, ,resp5
+hook,6, ,resp6
+hook,7, ,resp7
+hook,8, ,resp8
+
+resp0, ,<,resp0
+resp0,0,>,put0
+resp0,1,>,put0
+resp0,2,>,put0
+resp0,3,>,put0
+resp0,4,>,put0
+resp0,5,>,put0
+resp0,6,>,put0
+resp0,7,>,put0
+resp0,8,>,put0
+
+resp1, ,<,resp1
+resp1,0,>,put1
+resp1,1,>,put1
+resp1,2,>,put1
+resp1,3,>,put1
+resp1,4,>,put1
+resp1,5,>,put1
+resp1,6,>,put1
+resp1,7,>,put1
+resp1,8,>,put1
+
+resp2, ,<,resp2
+resp2,0,>,put2
+resp2,1,>,put2
+resp2,2,>,put2
+resp2,3,>,put2
+resp2,4,>,put2
+resp2,5,>,put2
+resp2,6,>,put2
+resp2,7,>,put2
+resp2,8,>,put2
+
+resp3, ,<,resp3
+resp3,0,>,put3
+resp3,1,>,put3
+resp3,2,>,put3
+resp3,3,>,put3
+resp3,4,>,put3
+resp3,5,>,put3
+resp3,6,>,put3
+resp3,7,>,put3
+resp3,8,>,put3
+
+resp4, ,<,resp4
+resp4,0,>,put4
+resp4,1,>,put4
+resp4,2,>,put4
+resp4,3,>,put4
+resp4,4,>,put4
+resp4,5,>,put4
+resp4,6,>,put4
+resp4,7,>,put4
+resp4,8,>,put4
+
+resp5, ,<,resp5
+resp5,0,>,put5
+resp5,1,>,put5
+resp5,2,>,put5
+resp5,3,>,put5
+resp5,4,>,put5
+resp5,5,>,put5
+resp5,6,>,put5
+resp5,7,>,put5
+resp5,8,>,put5
+
+resp6, ,<,resp6
+resp6,0,>,put6
+resp6,1,>,put6
+resp6,2,>,put6
+resp6,3,>,put6
+resp6,4,>,put6
+resp6,5,>,put6
+resp6,6,>,put6
+resp6,7,>,put6
+resp6,8,>,put6
+
+resp7, ,<,resp7
+resp7,0,>,put7
+resp7,1,>,put7
+resp7,2,>,put7
+resp7,3,>,put7
+resp7,4,>,put7
+resp7,5,>,put7
+resp7,6,>,put7
+resp7,7,>,put7
+resp7,8,>,put7
+
+resp8, ,<,resp8
+resp8,0,>,put8
+resp8,1,>,put8
+resp8,2,>,put8
+resp8,3,>,put8
+resp8,4,>,put8
+resp8,5,>,put8
+resp8,6,>,put8
+resp8,7,>,put8
+resp8,8,>,put8
+
+
+put0, ,0,right_n_hook
+put1, ,1,right_n_hook
+put2, ,2,right_n_hook
+put3, ,3,right_n_hook
+put4, ,4,right_n_hook
+put5, ,5,right_n_hook
+put6, ,6,right_n_hook
+put7, ,7,right_n_hook
+put8, ,8,right_n_hook
+
+
+right_n_hook, ,>,hook
+right_n_hook,0,>,hook
+right_n_hook,1,>,hook
+right_n_hook,2,>,hook
+right_n_hook,3,>,hook
+right_n_hook,4,>,hook
+right_n_hook,5,>,hook
+right_n_hook,6,>,hook
+right_n_hook,7,>,hook
+right_n_hook,8,>,hook
+
+
+go_to_n, ,<,go_to_n
+go_to_n,0,>,end
+go_to_n,1,>,end
+go_to_n,2,>,end
+go_to_n,3,>,end
+go_to_n,4,>,end
+go_to_n,5,>,end
+go_to_n,6,>,end
+go_to_n,7,>,end
+go_to_n,8,>,end
+
+
+end, ,#,end
+
+start_copy_program, ,$,right_first_lhook 
+
+
+right_first_lhook,$,<,first_lhook
+
+
+first_lhook,0,<,first_lhook
+first_lhook,1,<,first_lhook
+first_lhook,2,<,first_lhook
+
+
+first_lhook, ,>,first_lhook_ret
+
+
+first_lhook_ret,0,/,lhook_ret0
+first_lhook_ret,1,/,lhook_ret1
+first_lhook_ret,2,/,lhook_ret2
+
+
+lhook_ret0,/,>,lhook_ret0
+lhook_ret0,0,>,lhook_ret0
+lhook_ret0,1,>,lhook_ret0
+lhook_ret0,2,>,lhook_ret0
+lhook_ret0,$,>,lhook_ret0
+
+lhook_ret0, ,0,lhook0
+
+
+lhook_ret1,/,>,lhook_ret1
+lhook_ret1,0,>,lhook_ret1
+lhook_ret1,1,>,lhook_ret1
+lhook_ret1,2,>,lhook_ret1
+lhook_ret1,$,>,lhook_ret1
+
+lhook_ret1, ,1,lhook1
+
+
+lhook_ret2,/,>,lhook_ret2
+lhook_ret2,0,>,lhook_ret2
+lhook_ret2,1,>,lhook_ret2
+lhook_ret2,2,>,lhook_ret2
+lhook_ret2,$,>,lhook_ret2
+
+lhook_ret2, ,2,lhook2
+
+
+
+lhook0,0,<,lhook0
+lhook0,1,<,lhook0
+lhook0,2,<,lhook0
+lhook0,$,<,lhook0
+
+lhook0,/,0,right_ret_lhook
+
+
+lhook1,0,<,lhook1
+lhook1,1,<,lhook1
+lhook1,2,<,lhook1
+lhook1,$,<,lhook1
+
+lhook1,/,1,right_ret_lhook
+
+
+lhook2,0,<,lhook2
+lhook2,1,<,lhook2
+lhook2,2,<,lhook2
+lhook2,$,<,lhook2
+
+lhook2,/,2,right_ret_lhook
+
+
+right_ret_lhook,0,>,lhook_ret
+right_ret_lhook,1,>,lhook_ret
+right_ret_lhook,2,>,lhook_ret
+
+
+lhook_ret,$, ,right_go_to_right_end
+lhook_ret,0,/,lhook_ret0
+lhook_ret,1,/,lhook_ret1
+lhook_ret,2,/,lhook_ret2
+
+
+right_go_to_right_end, ,>,go_to_right_end
+
+
+go_to_right_end,0,>,go_to_right_end
+go_to_right_end,1,>,go_to_right_end
+go_to_right_end,2,>,go_to_right_end
+go_to_right_end, , ,start_main_program
 ```
-Протокол работы скрипта:
-```
-pepelulka@pepelulka-VirtualBox:~/test$ ./test.sh
-Hello pepelulka
-You're now in /home/pepelulka/test
-There is the list of files in the current directory:
-t1.txt
-t2.txt
-test.sh
-tt.txt
-```
+
 ## 9. Дневник отладки
 
 | № | Лаб. или дом. | Дата       | Время     | Событие                  | Действие по исправлению | Примечание  |
@@ -167,4 +371,4 @@ tt.txt
 
 ## 10. Выводы
 
-В результате лабораторной работы были изучены основные команды ОС UNIX. Были изучены команды для создания, редактирования, чтения и удаления файлов, перемещения по директориям. Это заложило фундамент для дальнейшего более глубокого изучения OS.
+Были освоены навыки составления программ для машины Тьюринга. Было лучше изучено понятие алгоритма. 
