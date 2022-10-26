@@ -67,9 +67,9 @@ int main() {
 ## 8. Распечатка протокола 
 
 ```
-C:\Users\user\Desktop\Универ\лабы по инфе\8>gcc -Wall -Wpedantic -Wextra -Werror -std=c18 a.c  
+C:\Users\user\Desktop>gcc -Wall -Wpedantic -Wextra -Werror -std=c18 a.c  
 
-C:\Users\user\Desktop\Универ\лабы по инфе\8>a.exe
+C:\Users\user\Desktop>a.exe
 Enter two integers
 2 3
 5
