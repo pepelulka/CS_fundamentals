@@ -35,14 +35,14 @@ void entered_msg(int i, int j, int l, int k) {
 
 void iter(int* i, int* j, int* l, int ck) {
     int ci = *i, cj = *j, cl = *l;
-    *i = sign(ci + 1) * abs(abs(ck - cj) - abs(ci - cl));
-    *j = mod(cj, 20) + max(mod(ci, 20), min(cj - ck, cl - ck)) - 10;
-    *l = mod(ck * (ci + 1) * (cj + 2) * (cl + 3), 20);
+    *i = abs(ci - cl) + min(mod(cj, 10), mod(cl * ck, 10)) - 20;
+    *j = mod(max(ck - ci, min(cj, max(ci - cl, cj - cl))), 30);
+    *l = mod(cl * cl, 20) - mod(max(ci, cj), ck + 1);
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int i = 13, j = 10, l = 14;
+    int i = -30, j = -4, l = 12;
     int flag = 0;
     if (check(i, j)) {
         flag = 1;

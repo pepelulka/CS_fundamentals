@@ -82,14 +82,14 @@ void entered_msg(int i, int j, int l, int k) {
 
 void iter(int* i, int* j, int* l, int ck) {
     int ci = *i, cj = *j, cl = *l;
-    *i = sign(ci + 1) * abs(abs(ck - cj) - abs(ci - cl));
-    *j = mod(cj, 20) + max(mod(ci, 20), min(cj - ck, cl - ck)) - 10;
-    *l = mod(ck * (ci + 1) * (cj + 2) * (cl + 3), 20);
+    *i = abs(ci - cl) + min(mod(cj, 10), mod(cl * ck, 10)) - 20;
+    *j = mod(max(ck - ci, min(cj, max(ci - cl, cj - cl))), 30);
+    *l = mod(cl * cl, 20) - mod(max(ci, cj), ck + 1);
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    int i = 13, j = 10, l = 14;
+    int i = -30, j = -4, l = 12;
     int flag = 0;
     if (check(i, j)) {
         flag = 1;
@@ -117,10 +117,10 @@ int main() {
 ## 8. Распечатка протокола 
 
 ```
-C:\Users\user\Desktop\Универ\лабы по инфе\9>gcc a.c
+C:\Users\user\Desktop\Универ\лабы по инфе\Repository\Lab9-geometry_on_C>gcc a.c
 
-C:\Users\user\Desktop\Универ\лабы по инфе\9>a.exe
-(i, j) has entered the area, i = 3, j = -14, l = -6, k = 7 
+C:\Users\user\Desktop\Универ\лабы по инфе\Repository\Lab9-geometry_on_C>a.exe
+(i, j) has entered the area, i = -15, j = 4, l = -4, k = 19 
 ```
 
 ## 9. Дневник отладки должен содержать дату и время сеансов отладки и основные события (ошибки в сценарии и программе, нестандартные ситуации) и краткие комментарии к ним. В дневнике отладки приводятся сведения об использовании других ЭВМ, существенном участии преподавателя и других лиц в написании и отладке программы.
