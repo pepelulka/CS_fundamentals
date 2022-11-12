@@ -63,8 +63,7 @@ int isdigit3(char c) {
 }
 
 void handler(char* str, int size) {
-    int c1 = 1, c2 = 0, sc = 1; // Conditions: 1 - string must contain only digits(0-2) except of 1st character, which can be + or -, 2 - last digit is 0, 3 - special case condition
-    // Handling special cases
+    int c1 = 1, c2 = 0, sc = 1; 
     if (size == 0) sc = 0;
     if (size == 1 && (str[0] != '0')) sc = 0;
     
