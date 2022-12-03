@@ -46,7 +46,14 @@
 Код программы: 
 ```
 #include <stdio.h>
-#include <locale.h>
+
+struct State {
+    int i, j, l;
+};
+
+struct Band {
+    int lower, upper;
+};
 
 int sign(int a) {
     if (a < 0) return -1;
@@ -72,40 +79,45 @@ int min(int a, int b) {
     return (a + b) - max(a, b);
 }
 
-int check(int i, int j) {
-    return ((i + j) >= -20) && ((i + j) <= -10);
+void entered_msg(struct State st, int k) {
+    printf("(i, j) has entered the area, i = %d, j = %d, l = %d, k = %d \n", st.i, st.j, st.l, k);
 }
 
-void entered_msg(int i, int j, int l, int k) {
-    printf("(i, j) has entered the area, i = %d, j = %d, l = %d, k = %d \n", i, j, l, k);
+void iter(struct State* st, int ck) {
+    int ci = st->i, cj = st->j, cl = st->l;
+    st->i = abs(ci - cl) + min(mod(cj, 10), mod(cl * ck, 10)) - 20;
+    st->j = mod(max(ck - ci, min(cj, max(ci - cl, cj - cl))), 30);
+    st->l = mod(cl * cl, 20) - mod(max(ci, cj), ck + 1);
 }
 
-void iter(int* i, int* j, int* l, int ck) {
-    int ci = *i, cj = *j, cl = *l;
-    *i = sign(ci + 1) * abs(abs(ck - cj) - abs(ci - cl));
-    *j = mod(cj, 20) + max(mod(ci, 20), min(cj - ck, cl - ck)) - 10;
-    *l = mod(ck * (ci + 1) * (cj + 2) * (cl + 3), 20);
+void out(struct State st) {
+    printf("(%d, %d, %d) \n", st.i, st.j, st.l);
 }
 
-int main() {
-    setlocale(LC_ALL, "Russian");
-    int i = 13, j = 10, l = 14;
+void trace(struct State st, struct Band bnd) {
     int flag = 0;
-    if (check(i, j)) {
+    if (check(st, bnd)) {
         flag = 1;
-        entered_msg(i, j, l, 0);
+        entered_msg(st, 0);
     }
     for (int k = 1;(k <= 50) && (flag == 0);k++) {
-        iter(&i, &j, &l, k);
-        if (check(i, j)) {
+        iter(&st, k);
+        out(st);
+        if (check(st, bnd)) {
             flag = 1;
-            entered_msg(i, j, l, k);
+            entered_msg(st, k);
             break;
         }
     }
     if (flag == 0) {
-        printf("(i, j) hasn't entered the area, i = %d, j = %d, l = %d \n", i, j, l);
+        printf("(i, j) hasn't entered the area, i = %d, j = %d, l = %d \n", st.i, st.j, st.l);
     }
+}
+                    
+int main() {
+    struct State st = {-30, -4, 12};
+    struct Band bnd = {-20, -10};
+    trace(st, bnd);
     return 0;
 }
 ```

@@ -32,7 +32,7 @@ void handler(char* str, int size) {
 }
 
 int main() {
-    char buffer[10000];
+    char buffer[32];
     int i = 0;
     char cur = getchar();
 
