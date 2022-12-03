@@ -83,6 +83,10 @@ void entered_msg(struct State st, int k) {
     printf("(i, j) has entered the area, i = %d, j = %d, l = %d, k = %d \n", st.i, st.j, st.l, k);
 }
 
+int check(struct State st, struct Band bnd) {
+    return ((st.i + st.j) >= bnd.lower) && ((st.i + st.j) <= bnd.upper);
+}
+
 void iter(struct State* st, int ck) {
     int ci = st->i, cj = st->j, cl = st->l;
     st->i = abs(ci - cl) + min(mod(cj, 10), mod(cl * ck, 10)) - 20;
