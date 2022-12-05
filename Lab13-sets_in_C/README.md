@@ -97,7 +97,7 @@ void set_difference(Set *x, Set *y) {
 
 // Main part of program
 
-bool is_vowel(int code) {
+bool not_vowel(int code) {
     return !(set_in(&VOWELS, code));
 }
 
@@ -106,12 +106,12 @@ bool check(char* string1, char* string2) {
 
     for (int ptr = 0;string1[ptr] != '\0';ptr++) {
         int code = (string1[ptr] - 'a');
-        if (is_vowel(code)) set_set(&set1, code);
+        if (not_vowel(code)) set_set(&set1, code);
     }
 
     for (int ptr = 0;string2[ptr] != '\0';ptr++) {
         int code = (string2[ptr] - 'a');
-        if (is_vowel(code)) set_set(&set2, code);
+        if (not_vowel(code)) set_set(&set2, code);
     }
     
     set_intersection(&set1, &set2);
