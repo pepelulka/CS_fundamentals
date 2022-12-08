@@ -12,13 +12,6 @@ int len(int a) {
     return res;
 }
 
-void print_with_tab(int a, int n) {
-    printf("%d", a);
-    for (int i = 0;i < (n - len(a));i++) {
-        printf(" ");
-    }
-}
-
 void solve() {
     int n;
     scanf("%d", &n);
@@ -37,7 +30,7 @@ void solve() {
 
     for (int i = 0;i < n;i++) {
         for (int j = 0;j < n;j++) {
-            print_with_tab(a[i][j], 3);
+            printf("%3d", a[i][j]);
         }
         printf("\n");
     }
