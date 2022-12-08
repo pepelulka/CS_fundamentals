@@ -1,38 +1,27 @@
 #include <stdio.h>
 
-int p10(int n) {
-    if (n == 0) return 1;
-    if (n % 2 == 0) return p10(n / 2) * p10(n / 2);
-    return 10 * p10(n -1);
+void swap(char* string, int ind1, int ind2) {
+    char temp = string[ind1];
+    string[ind1] = string[ind2];
+    string[ind2] = temp;
 }
 
-int len(int n) {
-    if (n == 0) return 1;
-    int res = 0;
-    while (n > 0) {
-        n = n / 10;
-        res++;
+void solve() {
+    char buffer[40];
+    int ptr = 0;
+    char cur;
+    
+    cur = getchar();
+    while (cur != '\n') {
+        buffer[ptr] = cur; ptr++;
+        cur = getchar();
     }
-    return res;
-}
-
-void solve(int n) {
-    int fd = n % 10;
-    int d = len(n);
-    int ld = n / p10(d - 1);
-    n = n - fd + ld;
-    n = n - ld * p10(d - 1) + fd * p10(d - 1);
-    printf("%d\n", n);
+    buffer[ptr] = '\0';
+    swap(buffer, 0, ptr - 1);
+    printf(buffer);
 }
 
 int main() {
-    char cur = ' ';
-    while (cur != EOF) {
-        int n;
-        scanf("%d", &n);
-        cur = getchar();
-		if (cur == EOF) break;
-        solve(n);
-    }
+    solve();
     return 0;
-}   
+}  
