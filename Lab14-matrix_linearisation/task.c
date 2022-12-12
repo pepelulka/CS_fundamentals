@@ -2,14 +2,18 @@
 
 #define MAX_N 49
 
-void solve() {
-    int n;
-    scanf("%d", &n);
-    int a[MAX_N][MAX_N];
-    int was[MAX_N][MAX_N];
+void matrix_input(int a[MAX_N][MAX_N], int n) {
     for (int i = 0;i < n;i++) {
         for (int j = 0;j < n;j++) {
             scanf("%d", &a[i][j]);
+        }
+    }
+}
+
+void matrix_linearize(int a[MAX_N][MAX_N], int n) {
+    int was[MAX_N][MAX_N];
+    for (int i = 0;i < n;i++) {
+        for (int j = 0;j < n;j++) {
             was[i][j] = 0;
         }
     }
@@ -24,8 +28,7 @@ void solve() {
                 }
                 i++; j--;
             }
-        }
-        else {
+        } else {
             int i = 0, j = k / 2; // starting point
             while (j < n && i < n) {
                 if (!was[i][j]) {
@@ -47,6 +50,10 @@ void solve() {
 }
 
 int main() {
-    solve();
+    int n;
+    scanf("%d", &n);
+    int a[MAX_N][MAX_N];
+    matrix_input(a, n);
+    matrix_linearize(a, n);
     return 0;
 }
