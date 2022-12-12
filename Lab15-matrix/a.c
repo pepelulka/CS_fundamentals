@@ -2,16 +2,6 @@
 
 #define MAX_N 8
 
-int len(int a) {
-    if (a == 0) return 1;
-    int res = 0;
-    while (a > 0) {
-        res++;
-        a /= 10;
-    }
-    return res;
-}
-
 void solve() {
     int n;
     scanf("%d", &n);
