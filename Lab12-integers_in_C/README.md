@@ -46,6 +46,12 @@
 Код программы: 
 ```src:a.c
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+bool is_del(char c) {
+    return (c == ' ') || (c == '\t') || (c == '\n') || (c == ',');
+}
 
 void swap(char* string, int ind1, int ind2) {
     char temp = string[ind1];
@@ -53,19 +59,30 @@ void swap(char* string, int ind1, int ind2) {
     string[ind2] = temp;
 }
 
+void swap_and_print(char* buffer) {
+    if (buffer[0] == '-' || buffer[0] == '+') swap(buffer, 1, strlen(buffer) - 1);
+    else swap(buffer, 0, strlen(buffer) - 1);
+    printf("%s\n", buffer);
+}
+
 void solve() {
-    char buffer[40];
     int ptr = 0;
     char cur;
-    
+    char buffer[12];
+
     cur = getchar();
-    while (cur != '\n') {
-        buffer[ptr] = cur; ptr++;
+    while (cur != EOF) {
+        if (is_del(cur) && ptr != 0) {
+            buffer[ptr] = '\0';
+            swap_and_print(buffer);
+            ptr = 0;
+        }
+        else if (!is_del(cur)) {
+            buffer[ptr] = cur;
+            ptr++;
+        }
         cur = getchar();
     }
-    buffer[ptr] = '\0';
-    swap(buffer, 0, ptr - 1);
-    printf(buffer);
 }
 
 int main() {
@@ -76,9 +93,8 @@ int main() {
 
 Текст тестового файла:
 ```
-abc asdasd as das
-102 0000 +30 100 -200
-34 100120a 100101 10120
+123    234  345 0 
+  +21382147
 ```
 
 Пункты 1-7 отчета составляются сторого до начала лабораторной работы.
@@ -88,9 +104,12 @@ abc asdasd as das
 ## 8. Распечатка протокола 
 
 ```
-PS C:\Users\user\Desktop\mai\inf_labs\Repository\Lab12-integers_in_C> ./a.exe
-325432
-225433
+C:\Users\user\Desktop\mai\inf_labs\Repository\Lab12-integers_in_C>a.exe < test.txt
+321
+432
+543
+0
++71382142
 ```
 
 ## 9. Дневник отладки должен содержать дату и время сеансов отладки и основные события (ошибки в сценарии и программе, нестандартные ситуации) и краткие комментарии к ним. В дневнике отладки приводятся сведения об использовании других ЭВМ, существенном участии преподавателя и других лиц в написании и отладке программы.
