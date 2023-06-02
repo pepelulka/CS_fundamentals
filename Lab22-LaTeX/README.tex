@@ -1,0 +1,105 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\DeclareMathOperator\erf{erf}
+\usepackage{listings}
+\usepackage{xcolor, graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdfpagemode=FullScreen,
+    }
+
+\title{Отчёт по лабораторной работе №22 по курсу “Языки и методы программирования”}
+\author{Рамалданов Рустамхан Ражудинович}
+\begin{document}
+\maketitle
+\begin{description}
+\item\textbf{Студент группы:} \underline{М80-108Б-22 Рамалданов Рустамхан Ражудинович, № по списку 15}    
+\item\textbf{Контакты e-mail:} \underline{mrpepelulka@gmail.com}
+\item\textbf{Работа выполнена:} \underline{«2» июня 2023 г.}
+\item\textbf{Входной контроль знаний с оценкой:} 
+\item\textbf{Преподаватель:} \underline{асп. каф. 806 Сахарин Никита Александрович}
+\item\textbf{Отчет сдан} \underline{«2» июня 2023 г.}, \textbf{итоговая оценка:}
+\item\textbf{Подпись преподавателя:} \underline{\hspace{3cm}}
+\end{description}
+\newpage
+\section{Тема}
+Издательская система \TeX{}.
+\section{Цель работы}
+Получить навыки оформления документов в издательской системе \LaTeX{}.
+\section{Задание}
+Оформить отчёт об изучении \LaTeX{} на \LaTeX{}.
+\section{Оборудование}
+\begin{description}
+\item\textbf{Процессор:} 11th Gen intel(R) Core(TM) i5-11400H @ 2.70GHz
+\item\textbf{ОП:} 16 ГБ
+\item\textbf{HDD:} 512 Gb
+\item\textbf{Адрес:} 192.168.56.1
+\item\textbf{Монитор:} 1920x1080
+\item\textbf{Графика:} Nvidia GeForce RTX 3050 Ti Laptop GPU
+\end{description}
+\section{Программное обеспечение}
+\begin{description}
+\item\textbf{Операционная система семейства:} linux(ubuntu) версии 5.15.0-47-generic
+\item\textbf{Интерпретатор команд:} Visual Studio Code версия 1.76.0
+\item\textbf{Текстовый редактор:} Visual Studio Code версия 1.76.0
+\end{description}
+\section{Идея, метод, алгоритм решения задачи}
+Ознакомиться с документацией \LaTeX{} и переписать отчет с Markdown на \LaTeX{}. tex-файл скомпилировать с помощью утилиты pdflatex.
+\section{Сценарий выполнения работы}
+Продемонстрируем широкий функционал \LaTeX{} на следующих примерах.
+\subsection{Пример формул}
+\[
+\lim\limits_{x \to \infty} \ x^\frac{1}{2} = \infty
+\]
+\[
+& \sqrt[n]{1 + x + x^2 + \cdots + x^n} \sim 1 + \frac{x}{n} &
+\]
+\[M=
+\begin{pmatrix}
+a & b & c\\
+b & a & c\\
+c & b & a
+\end{pmatrix}\]
+\begin{center}
+\begin{tcolorbox}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{protocol.png}
+\end{center}
+\end{tcolorbox}
+\end{center}
+\section{Распечатка протокола}
+\begin{lstlisting}[breaklines]
+    This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=latex)
+    restricted \write18 enabled.
+    entering extended mode
+    (./main.tex
+    LaTeX2e <2021-11-15> patch level 1
+    L3 programming layer <2022-01-21>
+    (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+    Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+    (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo))
+    (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+\end{lstlisting}  
+\section{Дневник отладки}
+\begin{tabular}{|c|p{1cm}|p{1.5cm}|c|p{2.5cm}|p{2cm}|p{2.25cm}|}
+    \hline
+    № & Лаб. или дом. & Дата & Время & Событие & Действие по исправлению & Примечание\\
+    \hline
+    1 & Дом. & 02.06.23 & 14:00 & Выполнение лабораторной работы & - & -\\
+    \hline
+\end{tabular}
+\section{Замечания автора по существу работы}
+\textcolor{red}{Замечания отсутствуют}
+\section{Выводы}
+Были получены навыки оформления докладов в издательской системе \LaTeX{}. Я убедился в универсальности и удобстве данной системы. Обретенные навыки помогут мне в дальнейшем истользовать \LaTeX{} для написания работ. \\
+\flushright \textbf{Подпись студента:} \underline{\hspace{3cm}}
+\end{document}

@@ -35,7 +35,7 @@ double func_18_iter(double x) {
 
 double newton(double (*f)(double), double (*df)(double), double a, double b, double eps) {
     double prev = a;
-    double cur = (a + b) / 2;
+    double cur = a + (b - a) / 2;
     while (fabs(cur - prev) > eps) {
         prev = cur;
         cur -= (*f)(cur) / (*df)(cur);
@@ -46,7 +46,7 @@ double newton(double (*f)(double), double (*df)(double), double a, double b, dou
 double dichotomy(double (*f)(double), double a, double b, double eps) {
     double mid = a;
     while (fabs(b - a) > eps) {
-        mid = (a + b) / 2;
+        mid = a + (b - a) / 2;
         if ((*f)(mid) * (*f)(a) < 0) b = mid;
         else a = mid;
     }
@@ -55,7 +55,7 @@ double dichotomy(double (*f)(double), double a, double b, double eps) {
 
 double iteration(double (*f)(double), double a, double b, double eps) {
     double prev = a;
-    double cur = (a + b) / 2;
+    double cur = a + (b - a) / 2;
     while (fabs(cur - prev) > eps) {
         prev = cur;
         cur = (*f)(prev);
