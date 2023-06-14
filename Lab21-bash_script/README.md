@@ -114,7 +114,12 @@ pepelulka@pepelulka:~/Desktop/labs/tmp_labs/Lab21-Bash_script/test$ wc *txt
 
 ## 10. Замечания автора по существу работы
 
-Замечаний нет.
+### Защита
+
+<b>Div 2</b>
+
+[1837A](https://codeforces.com/contest/1837/submission/207162249)
+[1837B](https://codeforces.com/contest/1837/submission/207231351)
 
 ## 11. Выводы
 
