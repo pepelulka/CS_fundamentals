@@ -213,10 +213,12 @@ int main(int argc, char **argv) {
         FILE *bin = fopen(argv[2], "r");
         if (bin) printTable(bin);
         else printf("Ошибка ввода.\n");
+        fclose(bin);
     } else if (argc == 4 && strcmp(argv[1], "func") == 0) {
         FILE *bin = fopen(argv[2], "r");
         if (bin) func(bin, atoi(argv[3]));
         else printf("Ошибка ввода.\n");
+        fclose(bin);
     }
 
     return 0;

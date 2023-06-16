@@ -73,7 +73,7 @@ fi
 
 ```
 
-8. Распечатка протокола
+## 8. Распечатка протокола
 
 ```
 pepelulka@pepelulka:~/Desktop/labs/tmp_labs/Lab21-Bash_script/test$ wc *.txt

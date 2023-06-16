@@ -70,7 +70,6 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	rm ${EXECUTABLE} ${OBJECTS}
 	rm -r build
 
 ```
