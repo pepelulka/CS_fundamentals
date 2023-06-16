@@ -121,6 +121,10 @@ pepelulka@pepelulka:~/Desktop/labs/tmp_labs/Lab21-Bash_script/test$ wc *txt
 [1837A](https://codeforces.com/contest/1837/submission/207162249)
 [1837B](https://codeforces.com/contest/1837/submission/207231351)
 
+Дорешка:
+
+[1837C](https://codeforces.com/contest/1837/submission/209870900)
+
 ## 11. Выводы
 
 Благодаря лабораторной работе были получениы базовые навыки написания Bash-скриптов. Был изучен синтаксис языка Bash.
