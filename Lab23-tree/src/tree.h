@@ -45,6 +45,10 @@ bool treeFunc(Tree *tree);
 void treePrint(Tree *tree);
 void treeSimplePrint(Tree *tree);
 
+void treePreorder(Tree *tree);
+void treeInorder(Tree *tree);
+void treePostorder(Tree *tree);
+
 //
 
 #endif

@@ -97,7 +97,6 @@ void func(FILE *file, int p) {
 
 int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
-
     if (argc < 3) printUsage();
     if (argc == 3 && strcmp(argv[1], "print") == 0) {
         FILE *bin = fopen(argv[2], "r");

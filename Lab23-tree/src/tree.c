@@ -44,6 +44,27 @@ int treeNodeDepth(TreeNode *node) {
     return left + 1;
 }
 
+void treeNodePreorder(TreeNode *node) {
+    if (node == NULL) return;
+    printf("%.3f ", node->value);
+    treeNodePreorder(node->left);
+    treeNodePreorder(node->right);
+}
+
+void treeNodeInorder(TreeNode *node) {
+    if (node == NULL) return;
+    treeNodeInorder(node->left);
+    printf("%.3f ", node->value);
+    treeNodeInorder(node->right);
+}
+
+void treeNodePostorder(TreeNode *node) {
+    if (node == NULL) return;
+    treeNodePostorder(node->left);
+    treeNodePostorder(node->right);
+    printf("%.3f ", node->value);
+}
+
 // \TreeNode interface ===
 
 // Tree interface ====
@@ -148,6 +169,24 @@ void treePrint(Tree *tree) {
 
 void treeSimplePrint(Tree *tree) {
     if (tree != NULL) treeNodeSimplePrint(tree->root, 0);
+}
+
+void treePreorder(Tree *tree) {
+    assert(tree != NULL);
+    treeNodePreorder(tree->root);
+    putchar('\n');
+}
+
+void treeInorder(Tree *tree) {
+    assert(tree != NULL);
+    treeNodeInorder(tree->root);
+    putchar('\n');
+}
+
+void treePostorder(Tree *tree) {
+    assert(tree != NULL);
+    treeNodePostorder(tree->root);
+    putchar('\n');
 }
 
 //

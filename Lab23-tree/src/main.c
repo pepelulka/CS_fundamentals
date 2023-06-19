@@ -48,13 +48,34 @@ void handler_simple_print(void *obj) {
     treeSimplePrint(tree);
 }
 
+void handler_preorder(void *obj) {
+    Tree *tree = (Tree*)obj;
+    //
+    treePreorder(tree);
+}
+
+void handler_inorder(void *obj) {
+    Tree *tree = (Tree*)obj;
+    //
+    treeInorder(tree);
+}
+
+void handler_postorder(void *obj) {
+    Tree *tree = (Tree*)obj;
+    //
+    treePostorder(tree);
+}
+
 int main() {
-    textMenuFastInitialize(5,
+    textMenuFastInitialize(8,
                            "print", "print - prints tree", handler_print,
                            "simple_print", "simple_print - prints tree (simplier)", handler_simple_print,
                            "insert", "insert <value> - inserts value in tree", handler_insert,
                            "erase", "erase <value> - erases value in tree", handler_erase,
-                           "func", "func - compute special function", handler_func);
+                           "func", "func - compute special function", handler_func,
+                           "inorder", "inorder", handler_inorder,
+                           "preorder", "preorder", handler_preorder,
+                           "postorder", "postorder", handler_postorder);
     textMenuFastStart(creator_Tree, destroyer_Tree);
     textMenuFastClose();
 }
