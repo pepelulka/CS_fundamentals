@@ -114,7 +114,19 @@ void matrixSet(Matrix *matrix, size_t i, size_t j, int value) {
         while ((int)j > matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) {
             curRowPiInd++;
         }
-        if ((int)j == matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) matrix->YE->data[curRowPiInd] = value;
+        if ((int)j == matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) {
+            if (value == 0) {
+                matrix->PI->size--;
+                matrix->YE->size--;
+                for (int k = curRowPiInd;(size_t)k < matrix->PI->size;k++) {
+                    matrix->PI->data[k] = matrix->PI->data[k + 1];
+                    matrix->YE->data[k] = matrix->YE->data[k + 1];
+                }
+                for (int k = i + 1;k < matrix->n;k++) matrix->CIP->data[k]--;
+            } else {
+                matrix->YE->data[curRowPiInd] = value;
+            }
+        }
         else {
             vectorInsert(matrix->PI, curRowPiInd, j);
             vectorInsert(matrix->YE, curRowPiInd, value);
