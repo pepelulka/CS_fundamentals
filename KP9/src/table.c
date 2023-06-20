@@ -192,8 +192,9 @@ void tableDivide(Table *table, TableVector *tv1, TableVector *tv2) {
     assert(table != NULL && tv1 != NULL && tv2 != NULL);
     tvPush(tv1, tableCreate());
     tablePush(tv1->data[0], table->data[0]);
-    int current = 0; TableVector* heaps[2] = {tv1, tv2}; // For fast switching between two heaps
-    for (size_t i = 1;i < table->size;i++) {
+    int current = 0;
+    TableVector* heaps[2] = {tv1, tv2}; // For fast switching between two heaps
+    for (size_t i = 1; i < table->size; i++) {
         if (strcmp(table->data[i].key, table->data[i - 1].key) >= 0) {
             tablePush(heaps[current]->data[heaps[current]->size - 1], table->data[i]);
         } else {
@@ -206,10 +207,11 @@ void tableDivide(Table *table, TableVector *tv1, TableVector *tv2) {
 
 void tableNaturalMergeSort(Table *table) {
     assert(table != NULL);
-    if (table->size <= 1) return;
+    if (table->size <= 1)
+        return;
     TableVector *tv1 = tvCreate(), *tv2 = tvCreate();
     tableDivide(table, tv1, tv2);
-    size_t value = (tv1->size + tv2->size);
+    size_t value = tv1->size + tv2->size;
     while (value >= 2) {
         tableVectorMerge(tv1, tv2, table);
         tvDestroy(tv1); tvDestroy(tv2);
@@ -226,8 +228,10 @@ bool tableBinarySearch(Table *table, char *key, Pair *result) {
     size_t l = 0, r = table->size - 1;
     while (r - l > 1) {
         size_t mid = (l + r) / 2;
-        if (strcmp(table->data[mid].key, key) <= 0) l = mid;
-        else r = mid;
+        if (strcmp(table->data[mid].key, key) <= 0)
+            l = mid;
+        else
+            r = mid;
     }
     if (strcmp(table->data[l].key, key) == 0) {
         *result = table->data[l];

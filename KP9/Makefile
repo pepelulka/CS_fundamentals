@@ -1,6 +1,6 @@
 CC=gcc
 LD=gcc
-CCFLAGS=-Wall -Werror -Wextra -Wfatal-errors -Wpedantic -pedantic-errors
+CCFLAGS=-Wall -Werror -Wextra -Wfatal-errors -Wpedantic -pedantic-errors -g
 LDFLAGS=
 SOURCES=$(addprefix src/,main.c table.c textmenu.c)
 OBJECTS=$(SOURCES:.c=.o)

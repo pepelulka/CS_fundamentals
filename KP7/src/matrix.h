@@ -7,7 +7,7 @@
 
 typedef struct {
     Vector *CIP, *PI, *YE;
-    int n, m;
+    size_t n, m;
 } Matrix;
 
 // Matrix interface (prefix - matrix) ===

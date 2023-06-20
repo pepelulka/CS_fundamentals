@@ -30,6 +30,11 @@ typedef enum {
     OPERATION_DIVIDE
 } TokenType;
 
+// "abc + ( meow + c )"
+// "abc", "+", "meow", "+", "c" - токены
+// Переменная, число, операции, скобки
+//
+
 typedef struct {
     TokenType type;
     int value; // If type == INTEGER
