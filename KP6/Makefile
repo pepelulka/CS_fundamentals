@@ -1,6 +1,6 @@
 CC=gcc
 LD=gcc
-CCFLAGS=-Wall -Werror -Wextra -Wfatal-errors -Wpedantic -pedantic-errors
+CCFLAGS=-Wall -Werror -Wextra -Wfatal-errors -Wpedantic -pedantic-errors -g
 LDFLAGS=
 
 src/main: main.o src/abit_dump

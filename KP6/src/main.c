@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include <locale.h>
+#include <stdbool.h>
 
 #include "abit.h"
 
@@ -38,10 +39,10 @@ const char * HEADER = "|Фамилия             |Инициалы|Пол|Но
 const char * DELIM =  "|--------------------|--------|---|-----------|--------|-------|-------|-------|---------------|\n";
 
 void printUsage() {
-    printf("<имя исполняемого файла> print <имя бинарного файла> - вывод таблицыя\n<имя исполняемого файла> func <имя бинарного файла> <p> - вычисление функции по заданию.\n");
+    printf("main <filename> -f - печать таблицы\nmain <filename> -p <p> - вычисление функции по заданию.\n");
 }
 
-void abitPrint(Abit *abit) {
+void abitPrint(const Abit *abit) {
     assert(abit != NULL);
     putchar('|');
     char surname[21];
@@ -50,11 +51,14 @@ void abitPrint(Abit *abit) {
     putchar('|');
     printf("%c%c      ", abit->initials[0], abit->initials[1]);
     putchar('|');
-    printf("%c  ", abit->gender);
+    char charAbitGender;
+    if (abit->gender) charAbitGender = 'M';
+    else charAbitGender = 'F';
+    printf("%c  ", charAbitGender);
     putchar('|');
     char *schnum = intToString(abit->schoolNumber, 10);
     printf("%s", stringComplement(schnum, 11));
-    putchar('|');
+    putchar('|'); //
     printf("%d       ", abit->isMedalist);
     putchar('|');
     char mark1[8];
@@ -97,17 +101,44 @@ void func(FILE *file, int p) {
 
 int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
-    if (argc < 3) printUsage();
-    if (argc == 3 && strcmp(argv[1], "print") == 0) {
-        FILE *bin = fopen(argv[2], "r");
+
+    if (argc == 1) {
+        printUsage();
+        return 0;
+    }
+    int p = -1;
+    int mode = 0; // 0 - not defined; 1 - file print; 2 - function; 3 - undetermined
+    bool wasFilename = false;
+    bool wasPreviousP = false;
+    char filename[40];
+    for (int i = 1;i < argc;i++) {
+        if (strcmp(argv[i], "-f") == 0) {
+            if (mode == 0) mode = 1;
+            else mode = 3;
+        } else if (strcmp(argv[i], "-p") == 0) {
+            wasPreviousP = true;
+        } else if (wasPreviousP) {
+            if (mode == 0) mode = 2;
+            else mode = 3;
+            p = atoi(argv[3]);
+        } else {
+            wasFilename = true;
+            strcpy(filename, argv[i]);
+        }
+        if (wasPreviousP && strcmp(argv[i], "-p") != 0) wasPreviousP = false;
+    }
+    if (wasFilename && mode == 1) {
+        FILE *bin = fopen(filename, "r");
         if (bin) printTable(bin);
         else printf("Ошибка ввода.\n");
         fclose(bin);
-    } else if (argc == 4 && strcmp(argv[1], "func") == 0) {
-        FILE *bin = fopen(argv[2], "r");
-        if (bin) func(bin, atoi(argv[3]));
+    } else if (wasFilename && mode == 2) {
+        FILE *bin = fopen(filename, "r");
+        if (bin) func(bin, p);
         else printf("Ошибка ввода.\n");
         fclose(bin);
+    } else {
+        printUsage();
     }
 
     return 0;
