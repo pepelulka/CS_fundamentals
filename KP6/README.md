@@ -113,6 +113,7 @@ main.c:
 #include <string.h>
 #include <assert.h>
 #include <locale.h>
+#include <stdbool.h>
 
 #include "abit.h"
 
@@ -148,10 +149,10 @@ const char * HEADER = "|Фамилия             |Инициалы|Пол|Но
 const char * DELIM =  "|--------------------|--------|---|-----------|--------|-------|-------|-------|---------------|\n";
 
 void printUsage() {
-    printf("<имя исполняемого файла> print <имя бинарного файла> - вывод таблицыя\n<имя исполняемого файла> func <имя бинарного файла> <p> - вычисление функции по заданию.\n");
+    printf("main <filename> -f - печать таблицы\nmain <filename> -p <p> - вычисление функции по заданию.\n");
 }
 
-void abitPrint(Abit *abit) {
+void abitPrint(const Abit *abit) {
     assert(abit != NULL);
     putchar('|');
     char surname[21];
@@ -160,11 +161,14 @@ void abitPrint(Abit *abit) {
     putchar('|');
     printf("%c%c      ", abit->initials[0], abit->initials[1]);
     putchar('|');
-    printf("%c  ", abit->gender);
+    char charAbitGender;
+    if (abit->gender) charAbitGender = 'M';
+    else charAbitGender = 'F';
+    printf("%c  ", charAbitGender);
     putchar('|');
     char *schnum = intToString(abit->schoolNumber, 10);
     printf("%s", stringComplement(schnum, 11));
-    putchar('|');
+    putchar('|'); //
     printf("%d       ", abit->isMedalist);
     putchar('|');
     char mark1[8];
@@ -208,17 +212,43 @@ void func(FILE *file, int p) {
 int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
 
-    if (argc < 3) printUsage();
-    if (argc == 3 && strcmp(argv[1], "print") == 0) {
-        FILE *bin = fopen(argv[2], "r");
+    if (argc == 1) {
+        printUsage();
+        return 0;
+    }
+    int p = -1;
+    int mode = 0; // 0 - not defined; 1 - file print; 2 - function; 3 - undetermined
+    bool wasFilename = false;
+    bool wasPreviousP = false;
+    char filename[40];
+    for (int i = 1;i < argc;i++) {
+        if (strcmp(argv[i], "-f") == 0) {
+            if (mode == 0) mode = 1;
+            else mode = 3;
+        } else if (strcmp(argv[i], "-p") == 0) {
+            wasPreviousP = true;
+        } else if (wasPreviousP) {
+            if (mode == 0) mode = 2;
+            else mode = 3;
+            p = atoi(argv[3]);
+        } else {
+            wasFilename = true;
+            strcpy(filename, argv[i]);
+        }
+        if (wasPreviousP && strcmp(argv[i], "-p") != 0) wasPreviousP = false;
+    }
+    if (wasFilename && mode == 1) {
+        FILE *bin = fopen(filename, "r");
         if (bin) printTable(bin);
         else printf("Ошибка ввода.\n");
         fclose(bin);
-    } else if (argc == 4 && strcmp(argv[1], "func") == 0) {
-        FILE *bin = fopen(argv[2], "r");
-        if (bin) func(bin, atoi(argv[3]));
+    } else if (wasFilename && mode == 2) {
+        FILE *bin = fopen(filename, "r");
+        if (bin) func(bin, p);
         else printf("Ошибка ввода.\n");
         fclose(bin);
+    } else {
+        printUsage();
     }
 
     return 0;
@@ -231,14 +261,16 @@ abit.h:
 #ifndef __ABIT__
 #define __ABIT__
 
+#include <stdbool.h>
+
 typedef struct {
     char surname[40];
     char initials[2];
-    char gender; // 'M' or 'F'
+    bool gender; // 0 - female, 1 - male
     int schoolNumber;
-    int isMedalist;
+    bool isMedalist;
     int marks[3]; // "64, 56, 88"
-    int essay;
+    bool essay;
 } Abit;
 
 #endif
@@ -249,24 +281,37 @@ abit_dump.c:
 ```src:abit_dump.c
 #include <stdio.h>
 #include <locale.h>
+#include <string.h>
 
 #include "abit.h"
 
 // delimiter - ;
 
-int readBase (Abit *abit, FILE *file) {
+bool readBase (Abit *abit, FILE *file) {
+	char charGender;
+	int intIsMedalist;
+	int intEssay;
 	int res = fscanf(file, "%[^;];%c%c;%c;%d;%d;%d;%d;%d;%d\n",
                            abit->surname,
                            &abit->initials[0],
                            &abit->initials[1],
-                           &abit->gender,
+                           &charGender,
                            &abit->schoolNumber,
-                           &abit->isMedalist,
+                           &intIsMedalist,
                            &abit->marks[0],
                            &abit->marks[1],
                            &abit->marks[2],
-                           &abit->essay);
-	return res == 10;
+                           &intEssay);
+	if (res == 10) {
+		if (charGender == 'M')
+			abit->gender = true;
+		else
+			abit->gender = false;
+		abit->isMedalist = (bool)intIsMedalist;
+		abit->essay = (bool)intEssay;
+		return true;
+	}
+	return false;
 }
 
 int main(int argc, char* argv[]) {
@@ -277,10 +322,16 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	Abit abit;
+	memset(&abit, '0', sizeof(Abit));
 	FILE *base = fopen(argv[1], "r");
-	FILE *bin = fopen(argv[2], "w");
 	if (!base) {
 		perror("Не удается открыть файл\n");
+		return 2;
+	}
+	FILE *bin = fopen(argv[2], "w");
+	if (!bin) {
+		perror("Не удается открыть файл\n");
+		fclose(base);
 		return 2;
 	}
 

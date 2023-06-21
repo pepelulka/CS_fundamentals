@@ -62,7 +62,7 @@ void matrixPrintNormal(Matrix *matrix) {
         int curRowPiInd = matrix->CIP->data[i];
         int nextRowPiInd;
         if (i == (n - 1)) {
-            nextRowPiInd = (int)(vectorSize(matrix->PI) - 1);
+            nextRowPiInd = (vectorSize(matrix->PI) - 1);
         } else {
             nextRowPiInd = matrix->CIP->data[i + 1];
         }

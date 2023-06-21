@@ -382,14 +382,14 @@ bool matrixFromFile(Matrix *matrix, char *filename) {
 
 void matrixPrintNormal(Matrix *matrix) {
     assert(matrix != NULL);
-    int n = matrix->n;
+    int n = matrix->n, m = matrix->m;
     // Print all rows except last
     for (int i = 0;i < n;i++) {
         int ptr = 1;
         int curRowPiInd = matrix->CIP->data[i];
         int nextRowPiInd;
         if (i == (n - 1)) {
-            nextRowPiInd = (int)(vectorSize(matrix->PI) - 1);
+            nextRowPiInd = (vectorSize(matrix->PI) - 1);
         } else {
             nextRowPiInd = matrix->CIP->data[i + 1];
         }
@@ -404,7 +404,7 @@ void matrixPrintNormal(Matrix *matrix) {
             printf("%d\t", curValue);
             curRowPiInd++;
         }
-        while (ptr != (n + 1)) {
+        while (ptr != (m + 1)) {
             printf("0\t");
             ptr++;
         }
@@ -414,61 +414,74 @@ void matrixPrintNormal(Matrix *matrix) {
 
 void matrixPrintRaw(Matrix *matrix) {
     assert(matrix != NULL);
-    printf("Matrix %dx%d\n", matrix->n, matrix->m);
+    printf("Matrix %lux%lu\n", matrix->n, matrix->m);
     printf("CIP: "); vectorPrint(matrix->CIP);
     printf("PI: "); vectorPrint(matrix->PI);
     printf("YE: "); vectorPrint(matrix->YE);
 }
 
 void matrixSet(Matrix *matrix, size_t i, size_t j, int value) {
-    assert(matrix != NULL && (int)i < matrix->n && (int)j < matrix->m);
-    int n = matrix->n;
+    assert(matrix != NULL && i < matrix->n && j < matrix->m);
+    size_t n = matrix->n;
     int curRowPiInd = matrix->CIP->data[i];
     int nextRowPiInd;
-    if ((int)i == (n - 1)) {
-        nextRowPiInd = (int)(vectorSize(matrix->PI) - 1);
+    if (i == (n - 1)) {
+        nextRowPiInd = (vectorSize(matrix->PI) - 1);
     } else {
         nextRowPiInd = matrix->CIP->data[i + 1];
     }
     // Row is zero
     if (curRowPiInd == nextRowPiInd) {
         j++;
-        vectorInsert(matrix->PI, curRowPiInd, (int)j);
+        vectorInsert(matrix->PI, curRowPiInd, j);
         vectorInsert(matrix->YE, curRowPiInd, value);
-        for (size_t k = i + 1;(int)k < n;k++) matrix->CIP->data[k]++;
+        for (size_t k = i + 1;k < n;k++) matrix->CIP->data[k]++;
     } else {
         j++;
-        while ((int)j > matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) {
+        while (j > (size_t)matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) {
             curRowPiInd++;
         }
-        if ((int)j == matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) matrix->YE->data[curRowPiInd] = value;
+        if (j == (size_t)matrix->PI->data[curRowPiInd] && curRowPiInd != nextRowPiInd) {
+            if (value == 0) {
+                matrix->PI->size--;
+                matrix->YE->size--;
+                for (size_t k = curRowPiInd;k < matrix->PI->size;k++) {
+                    matrix->PI->data[k] = matrix->PI->data[k + 1];
+                    matrix->YE->data[k] = matrix->YE->data[k + 1];
+                }
+                for (size_t k = i + 1;k < matrix->n;k++) matrix->CIP->data[k]--;
+            } else {
+                matrix->YE->data[curRowPiInd] = value;
+            }
+        }
         else {
             vectorInsert(matrix->PI, curRowPiInd, j);
             vectorInsert(matrix->YE, curRowPiInd, value);
-            for (size_t k = i + 1;(int)k < n;k++) matrix->CIP->data[k]++;
+            for (size_t k = i + 1;k < n;k++) matrix->CIP->data[k]++;
         }
     }
 }
 
 int matrixGet(Matrix *matrix, size_t i, size_t j) {
-    assert(matrix != NULL && (int)i < matrix->n && (int)j < matrix->m);
+    assert(matrix != NULL && i < matrix->n && j < matrix->m);
     int result = 0;
     int curRowPiInd = matrix->CIP->data[i];
     int nextRowPiInd;
-    if ((int)i == (matrix->n - 1)) {
-        nextRowPiInd = (int)(vectorSize(matrix->PI) - 1);
+    if (i == (matrix->n - 1)) {
+        nextRowPiInd = (vectorSize(matrix->PI) - 1);
     } else {
         nextRowPiInd = matrix->CIP->data[i + 1];
     }
     j++;
     for (;curRowPiInd != nextRowPiInd;curRowPiInd++) {
-        if (matrix->PI->data[curRowPiInd] == (int)j) result = matrix->YE->data[curRowPiInd];
+        if ((size_t)matrix->PI->data[curRowPiInd] == j)
+            result = matrix->YE->data[curRowPiInd];
     }
     return result;
 }
 
 int matrixMultVector(Matrix *matrix, Vector *vector, Vector *result) {
-    assert(matrix != NULL && vector != NULL && result != NULL && (int)vectorSize(vector) == matrix->m);
+    assert(matrix != NULL && vector != NULL && result != NULL && vectorSize(vector) == matrix->m);
     vectorClear(result);
     int nonZeroCount = 0;
     int n = matrix->n;
@@ -478,7 +491,7 @@ int matrixMultVector(Matrix *matrix, Vector *vector, Vector *result) {
         int curRowPiInd = matrix->CIP->data[i];
         int nextRowPiInd;
         if (i == (n - 1)) {
-            nextRowPiInd = (int)(vectorSize(matrix->PI) - 1);
+            nextRowPiInd = (vectorSize(matrix->PI) - 1);
         } else {
             nextRowPiInd = matrix->CIP->data[i + 1];
         }
@@ -816,6 +829,14 @@ Goodbye!
 | 1 | дом. | 15.06.23 | 13:00 | Выполнение лабораторной работы | - | - |
 
 ## 10. Замечания автора по существу работы
+
+Защита:
+
+<b>Div 2</b>
+
+[1728A](https://codeforces.com/contest/1728/submission/171352409)
+[1728B](https://codeforces.com/contest/1728/submission/171367245)
+[1728C](https://codeforces.com/contest/1728/submission/171406924)
 
 ## 11. Выводы
 Были получены навыки написания эффективных программ для обработки разреженных матриц. Были отработаны навыки работы с файлами, динамическими структурами и указателями в Си. Были получены навыки устранения утечек памяти с помощью Valgrind.
